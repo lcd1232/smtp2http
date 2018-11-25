@@ -4,12 +4,13 @@ import (
 	"net/mail"
 )
 
-func extractEmails(addr []*mail.Address, _ ...error) []string {
-	ret := []string{}
+// extractEmails returns emails.
+func extractEmails(addresses []*mail.Address, _ ...error) []string {
+	emails := make([]string, 0, len(addresses))
 
-	for _, e := range addr {
-		ret = append(ret, e.Address)
+	for _, address := range addresses {
+		emails = append(emails, address.Address)
 	}
 
-	return ret
+	return emails
 }

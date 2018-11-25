@@ -1,6 +1,8 @@
 package main
 
-import "flag"
+import (
+	"flag"
+)
 
 var (
 	flagServerName       = flag.String("name", "smtp2http", "the server name")
