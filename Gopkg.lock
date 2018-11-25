@@ -34,6 +34,14 @@
   version = "v1.0.15"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   digest = "1:b021fa67161b3ed0906f0377716b5205c1d337ad6bde1e7e5ebf57f52dea0dae"
   name = "github.com/tdewolff/parse"
   packages = ["buffer"]
@@ -114,6 +122,7 @@
     "github.com/DusanKasan/parsemail",
     "github.com/alash3al/go-smtpsrv",
     "github.com/go-resty/resty",
+    "github.com/pkg/errors",
     "github.com/zaccone/spf",
   ]
   solver-name = "gps-cdcl"
