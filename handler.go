@@ -12,19 +12,27 @@ import (
 	"github.com/zaccone/spf"
 )
 
-func handler(req *smtpsrv.Request) error {
+func handler(req *smtpsrv.Request) (err error) {
+	defer func() {
+		if err != nil {
+			logger.WithError(err).Error("got error")
+		}
+	}()
 	// validate the from data
 	if *flagStrictValidation {
 		if req.SPFResult != spf.Pass {
-			return errors.New("your host isn't configured correctly or you are a spammer -_-")
+			err = errors.New("your host isn't configured correctly or you are a spammer -_-")
+			return
 		} else if !req.Mailable {
-			return errors.New("your mail isn't valid because it cannot receive emails -_-")
+			err = errors.New("your mail isn't valid because it cannot receive emails -_-")
+			return
 		}
 	}
 
 	msg, err := parsemail.Parse(req.Message)
 	if err != nil {
-		return errors.New("cannot read your message, it may be because of it exceeded the limits")
+		err = errors.New("cannot read your message, it may be because of it exceeded the limits")
+		return
 	}
 
 	rq := resty.R()
@@ -50,9 +58,11 @@ func handler(req *smtpsrv.Request) error {
 	// submit the form
 	resp, err := rq.Post(*flagWebhook)
 	if err != nil {
-		return errors.New("cannot accept your message due to internal error, please report that to our engineers, '" + (err.Error()) + "'")
+		err = errors.New("cannot accept your message due to internal error, please report that to our engineers, '" + (err.Error()) + "'")
+		return
 	} else if resp.StatusCode() != http.StatusOK {
-		return errors.New("backend status code: " + resp.Status())
+		err = errors.New("backend status code: " + resp.Status())
+		return
 	}
 
 	return nil
