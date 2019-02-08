@@ -35,7 +35,10 @@ func handler(req *smtpsrv.Request) (err error) {
 		return
 	}
 
-	logger.WithField("mail-from", req.From).
+	logger.
+		WithField("is-mailable", req.Mailable).
+		WithField("spf-result", spf.Result(req.SPFResult).String()).
+		WithField("mail-from", req.From).
 		WithField("mail-to", strings.Join(extractEmails(msg.To), ",")).
 		WithField("mail-cc", strings.Join(extractEmails(msg.Cc), ",")).
 		WithField("mail-bcc", strings.Join(extractEmails(msg.Bcc), ",")).

@@ -34,6 +34,7 @@ func main() {
 		WithField("server-name", *flagServerName).
 		WithField("webhook-url", *flagWebhook).
 		WithField("strict-validation", *flagStrictValidation).
+		WithField("debug", *flagDebug).
 		WithField("go-version", runtime.Version()).
 		Info("app started")
 	defer func() {
